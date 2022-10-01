@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import Link from "next/link";
 import Error404 from "../../404";
 import Error500 from "../../500";
 import { useState } from "react";
@@ -37,6 +38,7 @@ export default function Flashcards({ quiz }) {
         
         <h1 className="mb-0">Flashcards</h1>
         <h3 className="mb-3">{quiz.name}</h3>
+        
         <Carousel className="w-100" activeIndex={curr} onSelect={(index) => curr < len && setCurr(index)}
         interval={null} indicators={false} controls={curr < len} variant="dark">
             {quiz.data.map((card, index) => 
@@ -55,7 +57,7 @@ export default function Flashcards({ quiz }) {
 
         <ProgressBar className="my-3 w-100" now={curr/len*100} />
         
-        <Button variant="secondary" onClick={() => router.push(`../${id}`)}>Return to {quiz.name}</Button>
+        <Link href={`../${id}`}><Button variant="secondary">Return to {quiz.name}</Button></Link>
     </>;
 };
 

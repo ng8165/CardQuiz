@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button, Table } from "react-bootstrap";
 import Error404 from "../404";
@@ -36,9 +37,9 @@ export default function Flashcards({ quiz }) {
         <Head><title>{quiz.name}</title></Head>
         
         <h1>{quiz.name}</h1>
-        <Button variant="dark" className="mb-3" onClick={() => router.push(`${id}/edit`)}>Edit</Button>
+        <Link href={`${id}/edit`}><Button variant="dark" className="mb-3">Edit</Button></Link>
 
-        <Button variant="primary" onClick={() => router.push(`${id}/flashcards`)}>Flashcards</Button>
+        <Link href={`${id}/flashcards`}><Button variant="primary">Flashcards</Button></Link>
 
         <Table bordered hover className="w-auto my-3">
             <thead>
@@ -68,7 +69,7 @@ export default function Flashcards({ quiz }) {
             router.push("/");
         }}>Delete Quiz</Button>
 
-        <Button variant="secondary" className="mt-3" onClick={() => router.push("/")}>Go Home</Button>
+        <Link href="/"><Button variant="secondary" className="mt-3">Go Home</Button></Link>
     </>;
 };
 

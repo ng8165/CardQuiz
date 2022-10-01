@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import Error404 from "../../404";
 import Error500 from "../../500";
 import { Form, Button, InputGroup, Container, Row, Col } from "react-bootstrap";
@@ -19,11 +20,6 @@ export default function Edit({ quiz }) {
         return <Error500 message={quiz.message} />;
     }
 
-    async function saveQuiz() {
-        
-        router.push(`../${id}`);
-    }
-
     return <>
         <Head><title>{name.length == 0 ? "Edit" : `Edit - ${name}`}</title></Head>
         
@@ -35,7 +31,6 @@ export default function Edit({ quiz }) {
             <Form.Control type="text" placeholder="Enter a title..." value={name}
             onChange={(e) => setName(e.target.value)} onBlur={() => updateQuizName(id, name)} />
         </InputGroup>
-        
 
         <h4 className="mt-4">Cards</h4>
         {quiz.data.map((card, index) => (
@@ -51,8 +46,9 @@ export default function Edit({ quiz }) {
                 </Row>
             </Container>
         ))}
+        
         <Button variant="primary" className="my-3">Add Card</Button>
 
-        <Button variant="secondary" onClick={() => router.push(`../${id}`)}>Return to {name}</Button>
+        <Link href={`../${id}`}><Button variant="secondary">Return to {name}</Button></Link>
     </>;
 }

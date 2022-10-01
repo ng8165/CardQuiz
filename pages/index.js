@@ -22,7 +22,7 @@ export default function Home({ quizzes }) {
         <Form.Label htmlFor="id">Enter an ID:</Form.Label>
         <Form.Control className="w-auto mb-2" id="id" value={id} onChange={(e) => setId(e.target.value)} />
         
-        <Button variant="primary" className="mb-3" onClick={() => router.push(`/quiz/${id}`)}>Load</Button>
+        <Link href={`quiz/${id}`}><Button variant="primary" className="mb-3">Load</Button></Link>
 
         {quizzes.map((quiz, index) => (
             <Link key={index} href={`quiz/${quiz.id}`}>{quiz.name}</Link>
