@@ -41,8 +41,8 @@ export default function Flashcards({ quiz }) {
         
         <Carousel className="w-100" activeIndex={curr} onSelect={(index) => curr < len && setCurr(index)}
         interval={null} indicators={false} controls={curr < len} variant="dark">
-            {quiz.data.map((card, index) => 
-                <Flashcard key={index} onClick={({target}) => {
+            {quiz.data.map((card) => 
+                <Flashcard key={card.id} onClick={({target}) => {
                     target.textContent = (target.textContent === card.term) ? card.definition : card.term;
                 }}>
                     {card.term}

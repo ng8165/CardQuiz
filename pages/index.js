@@ -24,8 +24,8 @@ export default function Home({ quizzes }) {
         
         <Link href={`quiz/${id}`}><Button variant="primary" className="mb-3">Load</Button></Link>
 
-        {quizzes.map((quiz, index) => (
-            <Link key={index} href={`quiz/${quiz.id}`}>{quiz.name}</Link>
+        {quizzes.map((quiz) => (
+            <Link key={quiz.id} href={`quiz/${quiz.id}`}>{quiz.name}</Link>
         ))}
 
         <Button className="mt-3" variant="primary" onClick={async () => {

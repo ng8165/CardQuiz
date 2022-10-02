@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Button, Table } from "react-bootstrap";
 import Error404 from "../404";
 import Error500 from "../500";
-import { getQuiz, removeQuiz, updateQuizCard }  from "../../firebase/db";
+import { getQuiz, deleteQuiz, updateQuizCard }  from "../../firebase/db";
 
 export async function getServerSideProps({ params }) {
     let quiz;
@@ -50,13 +50,13 @@ export default function Flashcards({ quiz }) {
                 </tr>
             </thead>
             <tbody>
-                {quiz.data.map((card, index) => 
-                    <tr key={index}>
+                {quiz.data.map((card) => 
+                    <tr key={card.id}>
                         <td>{card.term}</td>
                         <td>{card.definition}</td>
-                        <td onClick={(e) => {
+                        <td style={{cursor: "pointer"}} onClick={(e) => {
                             card.starred = !card.starred;
-                            updateQuizCard(id, index, { starred: card.starred });
+                            updateQuizCard(id, card.id, { starred: card.starred });
                             e.target.textContent = card.starred ? "★" : "☆";
                         }}>{card.starred ? "★" : "☆"}</td>
                     </tr>
@@ -65,7 +65,7 @@ export default function Flashcards({ quiz }) {
         </Table>
 
         <Button variant="danger" onClick={async () => {
-            await removeQuiz(id);
+            await deleteQuiz(id);
             router.push("/");
         }}>Delete Quiz</Button>
 
