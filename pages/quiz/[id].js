@@ -41,6 +41,8 @@ export default function Flashcards({ quiz }) {
 
         <Link href={`${id}/flashcards`}><Button variant="primary">Flashcards</Button></Link>
 
+        <p className="mb-0 mt-3">{quiz.data.length} terms</p>
+
         <Table bordered hover className="w-auto my-3">
             <thead>
                 <tr>

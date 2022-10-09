@@ -38,6 +38,8 @@ export default function Flashcards({ quiz }) {
         
         <h1 className="mb-0">Flashcards</h1>
         <h3 className="mb-3">{quiz.name}</h3>
+
+        <p>{curr >= len ? curr : curr+1}/{len}</p>
         
         <Carousel className="w-100" activeIndex={curr} onSelect={(index) => curr < len && setCurr(index)}
         interval={null} indicators={false} controls={curr < len} variant="dark">
