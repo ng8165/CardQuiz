@@ -1,37 +1,22 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Button, Table } from "react-bootstrap";
-import Error404 from "../404";
-import Error500 from "../500";
+import { Button, Table, Spinner } from "react-bootstrap";
 import { getQuiz, deleteQuiz, updateQuizCard }  from "../../firebase/db";
+import useSWR from "swr";
 
-export async function getServerSideProps({ params }) {
-    let quiz;
-
-    try {
-        const res = await getQuiz(params.id);
-
-        if (res == null)
-            quiz = {status: "error404", message: "Quiz not found."}
-        else
-            quiz = {status: "ok", ...res};
-    } catch(err) {
-        quiz = {status: "error500", message: err.message}
-    } finally {
-        return { props: { quiz } };
-    }
+export function useQuiz(id) {
+    const { data, error } = useSWR(id, getQuiz);
+    return { quiz: data, isLoading: !error && !data, isError: error };
 }
 
-export default function Flashcards({ quiz }) {
+export default function Flashcards() {
     const router = useRouter();
     const { id } = router.query;
-
-    if (quiz.status === "error404") {
-        return <Error404 />;
-    } else if (quiz.status === "error500") {
-        return <Error500 message={quiz.message} />;
-    }
+    
+    const { quiz, isLoading, isError } = useQuiz(id);
+    if (isLoading) return <Spinner animation="border" variant="dark" />;
+    if (isError) router.replace("/500");
 
     return <>
         <Head><title>{quiz.name}</title></Head>

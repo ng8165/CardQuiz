@@ -1,37 +1,33 @@
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Error404 from "../../404";
-import Error500 from "../../500";
 import { useState } from "react";
-import { ProgressBar, Carousel, Card, Button } from "react-bootstrap";
+import { ProgressBar, Carousel, Card, Button, Spinner } from "react-bootstrap";
 import { useRouter } from "next/router";
 import styles from "./flashcards.module.css";
+import { useQuiz } from "../[id]";
 
-export { getServerSideProps } from "../[id]";
+const Flashcard = React.forwardRef((props, ref) => (
+    <Carousel.Item ref={ref} className={props.className + " " + styles.flashcard}>
+        <Card>
+            <Card.Body onClick={props.onClick}>
+                {props.children}
+            </Card.Body>
+        </Card>
+    </Carousel.Item>
+));
+Flashcard.displayName = "Flashcard";
 
-export default function Flashcards({ quiz }) {
+export default function Flashcards() {
     const router = useRouter();
     const { id } = router.query;
     const [curr, setCurr] = useState(0);
+
+    const { quiz, isLoading, isError } = useQuiz(id);
+    if (isLoading) return <Spinner animation="border" variant="dark" />;
+    if (isError) router.replace("/500");
+
     const len = quiz.data.length;
-
-    if (quiz.status === "error404") {
-        return <Error404 />;
-    } else if (quiz.status === "error500") {
-        return <Error500 message={quiz.message} />;
-    }
-
-    const Flashcard = React.forwardRef((props, ref) => (
-        <Carousel.Item ref={ref} className={props.className + " " + styles.flashcard}>
-            <Card>
-                <Card.Body onClick={props.onClick}>
-                    {props.children}
-                </Card.Body>
-            </Card>
-        </Carousel.Item>
-    ));
-    Flashcard.displayName = "Flashcard";
 
     return <>
         <Head><title>{`Flashcards - ${quiz.name}`}</title></Head>

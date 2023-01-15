@@ -3,10 +3,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { addQuiz, getAllQuizNames } from "../firebase/db";
+import { addQuiz, getAllQuizzes } from "../firebase/db";
 
 export async function getServerSideProps() {
-    const quizzes = await getAllQuizNames();
+    const quizzes = await getAllQuizzes();
     return { props: { quizzes } };
 }
 
